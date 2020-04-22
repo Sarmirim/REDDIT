@@ -5,8 +5,8 @@ const key = '.json?limit=5&raw_json=1';
 
 function parse(linkToParse){
     return new Promise(function(resolve, reject){
-        request(link + linkToParse + key, function (error, response, body) {
-            // in addition to parsing the value, deal with possible errors
+        request(link + linkToParse + key,
+            function (error, response, body) {
             resolve(body);
             reject(new Error('Error'));
         });
@@ -19,7 +19,6 @@ let arrayData = [];
 async function f(redditLink){
     let arr = [];
     jsonData = await parse(redditLink).then(function(val) {
-        //console.log(val);
         return val;
     }).catch(function(err) {
         console.err(err);
@@ -54,10 +53,10 @@ async function f(redditLink){
             if(children.preview){
                 url = children.preview.images[0].source.url;
                 objectData.url = url;
-                //objectData.url = url;
-                //console.log(i + info + ": " + children.preview.images[0].source.url);
-            } else{
-                //console.log(i + info );
+                if(children.media){
+                    objectData.gif = children.media.reddit_video.fallback_url;
+
+                }
             }
             arr.push(objectData);
         }
