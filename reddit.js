@@ -11,7 +11,7 @@ let arrayData = [];
 
 http.createServer((request, response) => {
     const { headers, method, url } = request;
-    let requestedURL = request.url.toString().slice(6);
+    let requestedURL = request.url.toString().slice(5);
 
     let body = [];
     request.on('error', (err) => {
