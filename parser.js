@@ -17,6 +17,7 @@ let jsonData;
 let arrayData = [];
 
 async function f(redditLink){
+    console.log(redditLink);
     let arr = [];
     jsonData = await parse(redditLink).then(function(val) {
         return val;

@@ -11,7 +11,7 @@ let arrayData = [];
 
 http.createServer((request, response) => {
     const { headers, method, url } = request;
-    let requestedURL = request.url.toString().slice(5);
+    let requestedURL = request.url.toString().slice(9);
 
     let body = [];
     request.on('error', (err) => {
@@ -22,7 +22,7 @@ http.createServer((request, response) => {
         body = Buffer.concat(body).toString();
     });
 
-    //console.log(a);
+
     parser.f(requestedURL).then((tableArray)=>{
         response.statusCode = 200;
         response.setHeader('Content-Type', 'application/json');
