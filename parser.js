@@ -39,7 +39,7 @@ async function f(redditLink){
 
             let info = " " + subreddit + " " + author + " " + timeUTC + " ";
             let objectData = {
-                //title,
+                title,
                 author,
                 subreddit,
                 ups,
