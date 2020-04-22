@@ -10,5 +10,4 @@ function answer(objectWithData){
     }
     let fin = JSON.stringify(retAnswer);
     return fin;
-    //console.log(arrayData);
 }

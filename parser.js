@@ -1,11 +1,11 @@
-let parser = require('./parser');
-////////////////////////Promise
+const parser = require('./parser');
 const request = require('request');
-let link = 'https://www.reddit.com';
-let key = '.json?limit=5&raw_json=1';
-function parse(neewLink){
+const link = 'https://www.reddit.com';
+const key = '.json?limit=5&raw_json=1';
+
+function parse(linkToParse){
     return new Promise(function(resolve, reject){
-        request(link + neewLink + key, function (error, response, body) {
+        request(link + linkToParse + key, function (error, response, body) {
             // in addition to parsing the value, deal with possible errors
             resolve(body);
             reject(new Error('Error'));
@@ -26,16 +26,22 @@ async function f(redditLink){
         return "ERROR";
     });
     try {
-        let parsed = await JSON.parse(jsonData).data;
-        let dist = parsed.dist;
+        let parsed
+        let a = redditLink.search(`/comments/`);
+        if(a != -1){
+            parsed = await JSON.parse(jsonData)[0].data;
+        }else {
+            parsed = await JSON.parse(jsonData).data;
+        }
+
 
         for(let i=0; i<parsed.children.length; i++){
-            children = parsed.children[i].data;
-            subreddit = children.subreddit;
-            author = children.author;
-            ups = children.ups;
-            title = children.title;
-            timeUTC = new Date(children.created_utc*1000).toISOString().slice(-13, -5);
+            let children = parsed.children[i].data;
+            let subreddit = children.subreddit;
+            let author = children.author;
+            let ups = children.ups;
+            let title = children.title;
+            let timeUTC = new Date(children.created_utc*1000).toISOString().slice(-13, -5);
 
             let info = " " + subreddit + " " + author + " " + timeUTC + " ";
             let objectData = {
@@ -45,7 +51,6 @@ async function f(redditLink){
                 ups,
                 timeUTC
             }
-
             if(children.preview){
                 url = children.preview.images[0].source.url;
                 objectData.url = url;
@@ -56,19 +61,16 @@ async function f(redditLink){
             }
             arr.push(objectData);
         }
-
     } catch (error) {
-
     }
-
     return arr;
 }
-
-/*f().then((massiv)=>{
-        arrayData = massiv
-        console.table(arrayData)
-    });*/
 
 module.exports = {
     parse, f
 };
+/////Example
+/*f().then((massiv)=>{
+        arrayData = massiv
+        console.table(arrayData)
+    });*/
