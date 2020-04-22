@@ -1,11 +1,11 @@
 const parser = require('./parser');
 const request = require('request');
-const link = 'https://www.reddit.com';
+const link = '';
 const key = '.json?limit=5&raw_json=1';
 
 function parse(linkToParse){
     return new Promise(function(resolve, reject){
-        request(link + linkToParse + key,
+        request(linkToParse + key,
             function (error, response, body) {
             resolve(body);
             reject(new Error('Error'));

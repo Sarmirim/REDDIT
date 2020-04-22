@@ -1,6 +1,7 @@
 const http = require('http');
 const parser = require('./parser');
 const test1 = require('./test');
+const urlP = require('url');
 
 let arrayData = [];
 
@@ -10,8 +11,8 @@ let arrayData = [];
 
 http.createServer((request, response) => {
     const { headers, method, url } = request;
-    let requestedURL = request.url.toString()
-    console.log(requestedURL);
+    let requestedURL = request.url.toString().slice(6);
+
     let body = [];
     request.on('error', (err) => {
         console.error(err);
@@ -28,18 +29,6 @@ http.createServer((request, response) => {
         response.setHeader('X-Powered-By', 'Riftach');
         arrayData = tableArray
         let jsonArray = JSON.stringify(arrayData);
-
-        //console.table(arrayData);
-
-       /* arrayData.map((item, index, array) => {
-            let a = new Object(item);
-            let b = Object.entries(a);
-            let ans = test1.answer(a);
-            //response.write(ans);
-           // response.write('\r\n');
-
-            // returns the new value instead of item
-        });*/
 
         response.end(jsonArray);
     });

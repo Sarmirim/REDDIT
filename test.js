@@ -11,3 +11,8 @@ function answer(objectWithData){
     let fin = JSON.stringify(retAnswer);
     return fin;
 }
+
+function linkParser(stringURL) {
+
+
+}
