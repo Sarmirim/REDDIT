@@ -28,6 +28,9 @@ http.createServer((request, response) => {
         arrayData.map((item, index, array) => {
             response.write(item.author);
             console.log(item)
+            console.log("new")
+            console.log("new")
+            console.log("new")
             // returns the new value instead of item
         });
 
