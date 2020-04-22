@@ -2,10 +2,10 @@ let parser = require('./parser');
 ////////////////////////Promise
 const request = require('request');
 let link = 'https://www.reddit.com';
-let key = '&raw_json=1';
+let key = '.json?limit=5&raw_json=1';
 function parse(neewLink){
     return new Promise(function(resolve, reject){
-        request(link + neewLink, function (error, response, body) {
+        request(link + neewLink + key, function (error, response, body) {
             // in addition to parsing the value, deal with possible errors
             resolve(body);
             reject(new Error('Error'));
@@ -48,6 +48,7 @@ async function f(redditLink){
 
             if(children.preview){
                 url = children.preview.images[0].source.url;
+                objectData.url = url;
                 //objectData.url = url;
                 //console.log(i + info + ": " + children.preview.images[0].source.url);
             } else{
