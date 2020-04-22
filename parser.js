@@ -50,14 +50,29 @@ async function f(redditLink){
                 ups,
                 timeUTC
             }
-            if(children.preview){
-                url = children.preview.images[0].source.url;
-                objectData.url = url;
+            /*if(children.preview){
+                preview = children.preview;
+                objectData.url = preview.images[0].source.url;
+
+                if(children.preview.images[0].resolutions[0].url){
+                    objectData.smallReso = preview.images[0].resolutions[0].url;
+                }
+                if(children.media){
+                    objectData.gif = children.media.reddit_video.fallback_url;
+
+                }
+            }*/
+            if(children.url){
+                objectData.url = children.url;
+                if(children.thumbnail) {
+                    objectData.thumbnail = children.thumbnail;
+                }
                 if(children.media){
                     objectData.gif = children.media.reddit_video.fallback_url;
 
                 }
             }
+
             arr.push(objectData);
         }
     } catch (error) {
