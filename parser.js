@@ -33,8 +33,6 @@ async function f(redditLink){
         }else {
             parsed = await JSON.parse(jsonData).data;
         }
-
-
         for(let i=0; i<parsed.children.length; i++){
             let children = parsed.children[i].data;
             let subreddit = children.subreddit;
@@ -51,29 +49,17 @@ async function f(redditLink){
                 ups,
                 timeUTC
             }
-            /*if(children.preview){
-                preview = children.preview;
-                objectData.url = preview.images[0].source.url;
-
-                if(children.preview.images[0].resolutions[0].url){
-                    objectData.smallReso = preview.images[0].resolutions[0].url;
-                }
-                if(children.media){
-                    objectData.gif = children.media.reddit_video.fallback_url;
-
-                }
-            }*/
             if(children.url){
                 objectData.url = children.url;
-                if(children.thumbnail) {
+                if(children.thumbnail.toString() > 10) {
                     objectData.thumbnail = children.thumbnail;
+                }else {
+                    objectData.thumbnail = children.url;
                 }
                 if(children.media){
                     objectData.gif = children.media.reddit_video.fallback_url;
-
                 }
             }
-
             arr.push(objectData);
         }
     } catch (error) {

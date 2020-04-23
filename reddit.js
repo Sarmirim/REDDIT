@@ -12,7 +12,16 @@ let arrayData = [];
 http.createServer((request, response) => {
     const { headers, method, url } = request;
 
-    let requestedURL = request.url.toString().slice(1);
+    let requestedURL = url.toString();
+    try {
+        if(url.match(/\bwww.+/i)!=null){
+            let wwwMatches =  url.match(/\bwww.+/i)[0].toString();
+            requestedURL ="https://" + wwwMatches;
+        }
+    }catch (e) {
+        console.log("Invalid link")
+        console.log(e)
+    }
 
     let body = [];
     request.on('error', (err) => {
@@ -22,7 +31,6 @@ http.createServer((request, response) => {
     }).on('end', () => {
         body = Buffer.concat(body).toString();
     });
-
 
     parser.f(requestedURL).then((tableArray)=>{
         response.statusCode = 200;
