@@ -1,6 +1,6 @@
 const http = require('http');
 const parser = require('./parser');
-const test1 = require('./test');
+const dataFromParser = require('./dataParser');
 const urlP = require('url');
 
 let arrayData = [];
