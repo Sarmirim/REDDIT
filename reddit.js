@@ -1,7 +1,7 @@
 const http = require('http');
 const parser = require('./parser');
-const dataFromParser = require('./dataParser');
 const urlP = require('url');
+const winston = require('./logger')
 
 let arrayData = [];
 
@@ -10,6 +10,7 @@ let arrayData = [];
 // location = /favicon.ico { access_log off; log_not_found off; }
 
 http.createServer((request, response) => {
+
     const { headers, method, url } = request;
 
     let requestedURL = url.toString();
@@ -22,7 +23,7 @@ http.createServer((request, response) => {
         console.log("Invalid link")
         console.log(e)
     }
-
+    winston.logger.info(`URL: ${requestedURL}`);
     let body = [];
     request.on('error', (err) => {
         console.error(err);
@@ -49,7 +50,7 @@ http.createServer((request, response) => {
 // console.log(`Server running at http://${hostname}:${port}/`);
 console.log(`Server running ......
 `);
-
+winston.logger.info('Server running ......');
 ////////////////////////Promise
 let afterLink = "/r/all.json?limit=5&raw_json=1"
 let jsonData;
