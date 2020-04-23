@@ -51,6 +51,7 @@ async function dataParser(redditLink, jsonData) {
             arr.push(objectData);
         }
     } catch (error) {
+        console.log(error);
     }
     return arr
 }
