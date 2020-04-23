@@ -42,7 +42,7 @@ async function dataParser(redditLink, jsonData) {
                 let mediaFlag = children.media;
                 let preview = children.preview;
                 objectData.url = children.url;
-                if(children.thumbnail.toString() > 10) {
+                if(children.thumbnail.toString().length > 10) {
                     objectData.thumbnail = children.thumbnail;
                 }else {
                     objectData.thumbnail = children.url;
