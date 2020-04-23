@@ -38,15 +38,32 @@ async function dataParser(redditLink, jsonData) {
                 timeUTC
             }
             if(children.url){
+                let url = children.url;
+                let mediaFlag = children.media;
+                let preview = children.preview;
                 objectData.url = children.url;
                 if(children.thumbnail.toString() > 10) {
                     objectData.thumbnail = children.thumbnail;
                 }else {
                     objectData.thumbnail = children.url;
                 }
-                if(children.media){
-                    objectData.gif = children.media.reddit_video.fallback_url;
-                }
+
+                try {if(preview.reddit_video_preview){objectData.media = preview.reddit_video_preview.fallback_url;}}catch (e) {console.log("10")}
+
+                try {if(children.is_video == true){objectData.media = mediaFlag.reddit_video.fallback_url;}}catch (e) {console.log("11")}
+
+                try {if(mediaFlag.reddit_video){objectData.media = mediaFlag.reddit_video.fallback_url;}}catch (e) {console.log("12")}
+
+                try {if(url.match(/\b.gif+/i)) {objectData.media = children.url}}catch (e) {console.log("13")}
+
+                try {if(children.crosspost_parent_list[0]){
+                    let parent = children.crosspost_parent_list[0];
+                    try {if(parent.reddit_video_preview){objectData.media = parent.preview.reddit_video_preview.fallback_url;}}catch (e) {console.log("10")}
+                    try {if(parent.is_video == true){objectData.media = parent.media.reddit_video.fallback_url;}}catch (e) {console.log("11")}
+                    try {if(parent.media.reddit_video){objectData.media = parent.media.reddit_video.fallback_url;}}catch (e) {console.log("12")}
+                    try {if(parent.url.match(/\b.gif+/i)) {objectData.media = parent.url}}catch (e) {console.log("13")}
+                }}catch (e) {console.log("14")}
+                // //preview.images[0].variants.gif.source.url && preview.reddit_video_preview.is_gif
             }
             arr.push(objectData);
         }
