@@ -29,7 +29,7 @@ async function dataParser(redditLink, jsonData) {
             let ups = children.ups;
             let title = children.title;
             let timeUTC = new Date(children.created_utc*1000).toISOString().slice(-13, -5);
-
+            let gif = false;
             let objectData = {
                 title,
                 author,
@@ -47,24 +47,24 @@ async function dataParser(redditLink, jsonData) {
                 }else {
                     objectData.thumbnail = children.url;
                 }
+                try {if(preview.reddit_video_preview){objectData.media = preview.reddit_video_preview.fallback_url; gif = true}}catch (e) {console.log("10")}
 
-                try {if(preview.reddit_video_preview){objectData.media = preview.reddit_video_preview.fallback_url;}}catch (e) {console.log("10")}
+                try {if(children.is_video == true){objectData.media = mediaFlag.reddit_video.fallback_url; gif = true}}catch (e) {console.log("11")}
 
-                try {if(children.is_video == true){objectData.media = mediaFlag.reddit_video.fallback_url;}}catch (e) {console.log("11")}
+                try {if(mediaFlag.reddit_video){objectData.media = mediaFlag.reddit_video.fallback_url; gif = true}}catch (e) {console.log("12")}
 
-                try {if(mediaFlag.reddit_video){objectData.media = mediaFlag.reddit_video.fallback_url;}}catch (e) {console.log("12")}
-
-                try {if(url.match(/\b.gif+/i)) {objectData.media = children.url}}catch (e) {console.log("13")}
+                try {if(url.match(/\b.gif+/i)) {objectData.media = children.url; gif = true}}catch (e) {console.log("13")}
 
                 try {if(children.crosspost_parent_list[0]){
                     let parent = children.crosspost_parent_list[0];
-                    try {if(parent.reddit_video_preview){objectData.media = parent.preview.reddit_video_preview.fallback_url;}}catch (e) {console.log("10")}
-                    try {if(parent.is_video == true){objectData.media = parent.media.reddit_video.fallback_url;}}catch (e) {console.log("11")}
-                    try {if(parent.media.reddit_video){objectData.media = parent.media.reddit_video.fallback_url;}}catch (e) {console.log("12")}
-                    try {if(parent.url.match(/\b.gif+/i)) {objectData.media = parent.url}}catch (e) {console.log("13")}
+                    try {if(parent.reddit_video_preview){objectData.media = parent.preview.reddit_video_preview.fallback_url; gif = true}}catch (e) {console.log("10")}
+                    try {if(parent.is_video == true){objectData.media = parent.media.reddit_video.fallback_url; gif = true}}catch (e) {console.log("11")}
+                    try {if(parent.media.reddit_video){objectData.media = parent.media.reddit_video.fallback_url; gif = true}}catch (e) {console.log("12")}
+                    try {if(parent.url.match(/\b.gif+/i)) {objectData.media = parent.url; gif = true}}catch (e) {console.log("13")}
                 }}catch (e) {console.log("14")}
                 // //preview.images[0].variants.gif.source.url && preview.reddit_video_preview.is_gif
             }
+            objectData.gif = gif;
             arr.push(objectData);
         }
     } catch (error) {
