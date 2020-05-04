@@ -1,23 +1,30 @@
+'use strict';
+
 const http = require('http');
 const parser = require('./parser');
 const urlP = require('url');
 const winston = require('./logger')
-
 let arrayData = [];
 
 //In case someone stumbles upon this in the future.. If you are running nginx in front of node.js you can also block favicon requests by adding this line:
 //
 // location = /favicon.ico { access_log off; log_not_found off; }
-
-http.createServer((request, response) => {
-
+const port = 8080;
+const server = http.createServer((request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
     const { headers, method, url } = request;
-
+    let a = request.headers;
+    console.log(request.headers);
     let requestedURL = url.toString();
     try {
-        if(url.match(/\bwww.+/i)!=null){
-            let wwwMatches =  url.match(/\bwww.+/i)[0].toString();
-            requestedURL ="https://" + wwwMatches;
+        if(url.match(/\bwww.+/i)!=null) {
+            let wwwMatches = url.match(/\bwww.+/i)[0].toString();
+            requestedURL = "https://" + wwwMatches;
+
+        }
+        if (url.match(/\breddit.+/i) != null) {
+            let wwwMatches = url.match(/\breddit.+/i)[0].toString();
+            requestedURL = "https://www." + wwwMatches;
         }
     }catch (e) {
         console.log("Invalid link")
@@ -43,12 +50,12 @@ http.createServer((request, response) => {
         response.end(jsonArray);
     });
 
-}).listen(8080);
+}).listen(port);
 
 // const hostname = '127.0.0.1';
 // const port = 8080;
 // console.log(`Server running at http://${hostname}:${port}/`);
-console.log(`Server running ......
+console.log(`Server running ...... ${port}
 `);
 winston.logger.info('Server running ......');
 ////////////////////////Promise
