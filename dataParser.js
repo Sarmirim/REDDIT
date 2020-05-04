@@ -24,18 +24,18 @@ async function dataParser(redditLink, jsonData) {
         }
         for(let i=0; i<parsed.children.length; i++){
             let children = parsed.children[i].data;
-            let subreddit = children.subreddit;
-            let author = children.author;
-            let ups = children.ups;
+            // let subreddit = children.subreddit;
+            // let author = children.author;
+            // let ups = children.ups;
             let title = children.title;
-            let timeUTC = new Date(children.created_utc*1000).toISOString().slice(-13, -5);
+            // let timeUTC = new Date(children.created_utc*1000).toISOString().slice(-13, -5);
             let gif = false;
             let objectData = {
                 title,
-                author,
-                subreddit,
-                ups,
-                timeUTC
+                // author,
+                // subreddit,
+                // ups,
+                // timeUTC
             }
             if(children.url){
                 let url = children.url;
